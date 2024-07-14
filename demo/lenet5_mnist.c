@@ -24,7 +24,7 @@ void lenet5_mnist(char *type, char *path)
     append_layer2grpah(g, l9);
     append_layer2grpah(g, l10);
     Session *sess = create_session(g, 32, 32, 1, 10, type, path);
-    set_train_params(sess, 15, 16, 16, 0.1);
+    set_train_params(sess, 15, 8, 8, 0.01);
     init_session(sess, "./data/mnist/train.txt", "./data/mnist/train_label.txt");
     train(sess);
 }
