@@ -3,9 +3,9 @@
 
 int main()
 {
-    // lenet5_cifar10("gpu", NULL);
-    // lenet5_cifar10_detect("gpu", "./LuWeights");
-    lenet5_mnist("gpu", NULL);
-    lenet5_mnist_detect("gpu", "./LuWeights");
+    lenet5_cifar10("cpu", NULL);
+    lenet5_cifar10_detect("cpu", "./LuWeights");
+    // lenet5_mnist("cpu", NULL);
+    // lenet5_mnist_detect("cpu", "./LuWeights");
     return 0;
 }

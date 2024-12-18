@@ -57,8 +57,6 @@ int run_by_benchmark_file(char *path, TestInterface FUNC, int coretype, FILE *lo
             FUNC(space, ret);
         }
         fprintf(stderr, "  Running test case \e[0;32mFINISH\e[0m\n");
-        logging_info(logfp, interface, 0);
-        logging_info(logfp, cases[i], 0);
         for (int j = 0; j < compares_num; ++j){
             if (coretype == CPU){
                 flag = compare_array(compare[j], ret[j], compares_types[j], compares_num_list[j], logfp);
