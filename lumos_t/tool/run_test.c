@@ -66,6 +66,10 @@ int run_by_benchmark_file(char *path, TestInterface FUNC, int coretype, FILE *lo
             if (flag == 1){
                 fprintf(stderr, "  Interface %s: %s \e[0;32mPASS\e[0m\n", interface, compares[j]);
             } else {
+                logging_msg(3, "Compare Data:\n", logfp);
+                logging_data(compares_types[j], compare[j], 1, compares_num_list[j], 1, logfp);
+                logging_msg(3, "Return Data:\n", logfp);
+                logging_data(compares_types[j], ret[j], 1, compares_num_list[j], 1, logfp);
                 fprintf(stderr, "  Interface %s: %s \e[0;31mFAIL\e[0m\n", interface, compares[j]);
                 all_flag = 0;
             }

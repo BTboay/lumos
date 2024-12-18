@@ -5,7 +5,7 @@ void im2col(float *img, int height, int width, int channel, int ksize, int strid
     int height_col = (height + 2 * pad - ksize) / stride + 1;
     int width_col = (width + 2 * pad - ksize) / stride + 1;
 
-    int channels_col = channel * ksize * ksize;
+    int channels_col = channel * ksize * ksize; //channels_col总行数  height_col*width_col总列数
     for (int c = 0; c < channels_col; ++c)
     {
         int w_offset = c % ksize;
@@ -22,7 +22,7 @@ void im2col(float *img, int height, int width, int channel, int ksize, int strid
                     space[col_index] = 0;
                     continue;
                 }
-                space[col_index] = img[im_col + width * (im_row + height * c_offset - pad) - pad];
+                space[col_index] = img[im_col + width * (im_row + height * c_offset)];
             }
         }
     }

@@ -44,9 +44,9 @@ void logging_msg(int type, char *msg, FILE *buffer)
 
 void logging_data(char *type, void *data, int h, int w, int c, FILE *buffer)
 {
-    if (0 == strcmp(type, "int")){
+    if (0 == strcmp(type, "int") || 0 == strcmp(type, "int g")){
         logging_int_data(h, w, c, (int*)data, buffer);
-    } else if (0 == strcmp(type, "float")){
+    } else if (0 == strcmp(type, "float") || 0 == strcmp(type, "float g")){
         logging_float_data(h, w, c, (float*)data, buffer);
     }
 }

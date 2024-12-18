@@ -32,20 +32,7 @@ void init_session(Session *sess, char *data_path, char *label_path)
         sess->truth = calloc(sess->subdivision*sess->truth_num, sizeof(float));
         sess->loss = calloc(1, sizeof(float));
     }
-    Graph *g = sess->graph;
-    Node *layer = g->head;
-    Layer *l;
-    for (;;){
-        if (layer){
-            l = layer->l;
-            l->truth = sess->truth;
-            l->loss = sess->loss;
-            l->workspace = sess->workspace;
-        } else {
-            break;
-        }
-        layer = layer->next;
-    }
+    set_graph(sess->graph, sess->workspace, sess->truth, sess->loss);
 }
 
 void bind_train_data(Session *sess, char *path)

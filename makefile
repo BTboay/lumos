@@ -1,5 +1,5 @@
 LINUX=1
-TEST=1
+TEST=0
 DEBUG=0
 MEMDEBUG=0
 
@@ -25,7 +25,6 @@ VPATH=	./lib/: \
 		./lumos/core_cu/ops_cu/: \
 		./lumos/core_cu/graph_cu/layer_cu/: \
 		./lumos/core_cu/graph_cu/loss_layer_cu/ \
-		./demo
 
 COMMON=	-Ilib \
 		-Iinclude \
@@ -44,7 +43,6 @@ COMMON=	-Ilib \
 		-Ilumos/core_cu/ops_cu \
 		-Ilumos/core_cu/graph_cu/layer_cu \
 		-Ilumos/core_cu/graph_cu/loss_layer_cu \
-		-Idemo
 
 EXEC=lumos.exe
 OBJDIR=./obj/
@@ -91,6 +89,12 @@ VPATH+=	./lumos_t \
 		./utils/logging
 endif
 
+ifeq ($(TEST), 0)
+COMMON+= -Idemo
+
+VPATH+= ./demo
+endif
+
 OBJ=	avgpool_layer.o connect_layer.o convolutional_layer.o graph.o im2col_layer.o maxpool_layer.o \
 		softmax_layer.o dropout_layer.o normalization_layer.o \
 		mse_layer.o \
@@ -98,8 +102,7 @@ OBJ=	avgpool_layer.o connect_layer.o convolutional_layer.o graph.o im2col_layer.
 		session.o \
 		progress_bar.o \
 		binary_f.o text_f.o debug_data.o\
-		str_ops.o logging.o \
-		xor.o lenet5_mnist.o lenet5_cifar10.o
+		str_ops.o logging.o
 
 OBJ+= 	active_gpu.o bias_gpu.o cpu_gpu.o gemm_gpu.o im2col_gpu.o pooling_gpu.o softmax_gpu.o shortcut_gpu.o normalize_gpu.o \
 	  	avgpool_layer_gpu.o maxpool_layer_gpu.o connect_layer_gpu.o convolutional_layer_gpu.o im2col_layer_gpu.o \
@@ -113,6 +116,12 @@ OBJ+=   analysis_benchmark_file.o compare.o run_test.o test_msg.o utest.o cJSON.
 OBJ+= 	avgpool_layer_call.o connect_layer_call.o mse_layer_call.o
 
 OBJ+= 	avgpool_layer_gpu_call.o connect_layer_gpu_call.o mse_layer_gpu_call.o
+
+OBJ+=	im2col_call.o
+endif
+
+ifeq ($(TEST), 0)
+OBJ+=	xor.o lenet5_mnist.o lenet5_cifar10.o
 endif
 
 ifeq ($(TEST),1)
