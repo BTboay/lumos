@@ -31,6 +31,9 @@ Layer *make_convolutional_layer(int filters, int ksize, int stride, int pad, int
     l->saveweights = save_convolutional_layer_weights;
     l->saveweightsgpu = save_convolutional_layer_weights_gpu;
 
+    l->freelayer = free_convolutional_layer;
+    l->freelayergpu = free_convolutional_layer_gpu;
+
     fprintf(stderr, "Convolutional   Layer    :    [filters=%2d, ksize=%2d, stride=%2d, pad=%2d, bias=%d, active=%s]\n",
             l->filters, l->ksize, l->stride, l->pad, l->bias, active);
     return l;
@@ -172,5 +175,20 @@ void save_convolutional_layer_weights(Layer l, FILE *fp)
     }
     if (l.normalize){
         save_normalization_layer_weights(l, fp);
+    }
+}
+
+void free_convolutional_layer(Layer l)
+{
+    free(l.output);
+    free(l.delta);
+    free(l.kernel_weights);
+    free(l.update_kernel_weights);
+    if (l.bias){
+        free(l.bias_weights);
+        free(l.update_bias_weights);
+    }
+    if (l.normalize){
+        free_normalization_layer(l);
     }
 }

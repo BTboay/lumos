@@ -46,3 +46,9 @@ void backward_softmax_layer_gpu(Layer l, float rate, int num, float *n_delta)
         matrix_multiply_gpu(delta_n, delta_l, l.inputs, delta_l);
     }
 }
+
+void free_softmax_layer_gpu(Layer l)
+{
+    cudaFree(l.output);
+    cudaFree(l.delta);
+}

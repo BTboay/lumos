@@ -26,6 +26,9 @@ Layer *make_avgpool_layer(int ksize, int stride, int pad)
     l->saveweights = NULL;
     l->saveweightsgpu = NULL;
 
+    l->freelayer = free_avgpool_layer;
+    l->freelayergpu = free_avgpool_layer_gpu;
+
     fprintf(stderr, "Avg Pooling     Layer    :    [ksize=%2d]\n", l->ksize);
     return l;
 }
@@ -73,4 +76,10 @@ void backward_avgpool_layer(Layer l, float rate, int num, float *n_delta)
         float *delta_n = n_delta + offset_o;
         avgpool_gradient(delta_l, l.input_h, l.input_w, l.input_c, l.ksize, l.stride, l.pad, delta_n);
     }
+}
+
+void free_avgpool_layer(Layer l)
+{
+    free(l.output);
+    free(l.delta);
 }

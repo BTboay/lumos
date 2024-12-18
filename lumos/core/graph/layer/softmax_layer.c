@@ -23,6 +23,9 @@ Layer *make_softmax_layer(int group)
     l->saveweights = NULL;
     l->saveweightsgpu = NULL;
 
+    l->freelayer = free_softmax_layer;
+    l->freelayergpu = free_softmax_layer_gpu;
+
     fprintf(stderr, "Softmax         Layer    :    [output=%4d]\n", group);
     return l;
 }
@@ -70,4 +73,10 @@ void backward_softmax_layer(Layer l, float rate, int num, float *n_delta)
         softmax_grident(input, l.inputs, delta_l);
         matrix_multiply_cpu(delta_n, delta_l, l.inputs, delta_l);
     }
+}
+
+void free_softmax_layer(Layer l)
+{
+    free(l.output);
+    free(l.delta);
 }

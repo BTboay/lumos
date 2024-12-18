@@ -120,3 +120,19 @@ void save_normalization_layer_weights_gpu(Layer l, FILE *fp)
     free(rolling_mean);
     free(rolling_variance);
 }
+
+void free_normalization_layer_gpu(Layer l)
+{
+    cudaFree(l.mean);
+    cudaFree(l.variance);
+    cudaFree(l.rolling_mean);
+    cudaFree(l.rolling_variance);
+    cudaFree(l.normalize_x);
+    cudaFree(l.x_norm);
+    cudaFree(l.mean_delta);
+    cudaFree(l.variance_delta);
+    cudaFree(l.bn_scale);
+    cudaFree(l.bn_bias);
+    cudaFree(l.update_bn_scale);
+    cudaFree(l.update_bn_bias);
+}

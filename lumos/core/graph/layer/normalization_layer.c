@@ -94,3 +94,19 @@ void save_normalization_layer_weights(Layer l, FILE *fp)
     fwrite(l.rolling_mean, sizeof(float), l.output_c, fp);
     fwrite(l.rolling_variance, sizeof(float), l.output_c, fp);
 }
+
+void free_normalization_layer(Layer l)
+{
+    free(l.mean);
+    free(l.variance);
+    free(l.rolling_mean);
+    free(l.rolling_variance);
+    free(l.normalize_x);
+    free(l.x_norm);
+    free(l.mean_delta);
+    free(l.variance_delta);
+    free(l.bn_scale);
+    free(l.bn_bias);
+    free(l.update_bn_scale);
+    free(l.update_bn_bias);
+}

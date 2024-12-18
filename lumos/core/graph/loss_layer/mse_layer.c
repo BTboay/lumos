@@ -23,6 +23,9 @@ Layer *make_mse_layer(int group)
     l->saveweights = NULL;
     l->saveweightsgpu = NULL;
 
+    l->freelayer = free_mse_layer;
+    l->freelayergpu = free_mse_layer_gpu;
+
     fprintf(stderr, "Mse             Layer    :    [output=%4d]\n", 1);
     return l;
 }
@@ -77,4 +80,10 @@ void backward_mse_layer(Layer l, float rate, int num, float *n_delta)
         matrix_subtract_cpu(input, truth, l.inputs, delta_l);
         multy_cpu(delta_l, l.inputs, (float)2/l.group, 1);
     }
+}
+
+void free_mse_layer(Layer l)
+{
+    free(l.output);
+    free(l.delta);
 }

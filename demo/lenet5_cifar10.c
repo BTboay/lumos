@@ -3,11 +3,11 @@
 void lenet5_cifar10(char *type, char *path)
 {
     Graph *g = create_graph();
-    Layer *l1 = make_convolutional_layer(32, 5, 1, 2, 0, 1, "relu");
+    Layer *l1 = make_convolutional_layer(32, 5, 1, 2, 0, 0, "relu");
     Layer *l2 = make_maxpool_layer(2, 2, 0);
-    Layer *l3 = make_convolutional_layer(32, 5, 1, 2, 0, 1, "relu");
+    Layer *l3 = make_convolutional_layer(32, 5, 1, 2, 0, 0, "relu");
     Layer *l4 = make_maxpool_layer(2, 2, 0);
-    Layer *l5 = make_convolutional_layer(64, 5, 1, 2, 0, 1, "relu");
+    Layer *l5 = make_convolutional_layer(64, 5, 1, 2, 0, 0, "relu");
     Layer *l6 = make_maxpool_layer(2, 2, 0);
     Layer *l7 = make_im2col_layer();
     Layer *l8 = make_connect_layer(64, 1, "relu");

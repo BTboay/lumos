@@ -23,6 +23,9 @@ Layer *make_dropout_layer(float probability)
     l->saveweights = NULL;
     l->saveweightsgpu = NULL;
 
+    l->freelayer = free_dropout_layer;
+    l->freelayergpu = free_dropout_layer_gpu;
+
     fprintf(stderr, "Dropout   Layer    :    [probability=%.2f]\n", l->probability);
     return l;
 }
@@ -75,4 +78,11 @@ void backward_dropout_layer(Layer l, float rate, int num, float *n_delta)
         if (r < l.probability) l.delta[i] = 0;
         else l.delta[i] = n_delta[i] * scale;
     }
+}
+
+void free_dropout_layer(Layer l)
+{
+    free(l.output);
+    free(l.delta);
+    free(l.dropout_rand);
 }

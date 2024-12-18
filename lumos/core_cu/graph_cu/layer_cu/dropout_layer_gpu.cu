@@ -81,3 +81,10 @@ void dropout_gradient_gpu(Layer l, int num, float *n_delta)
     float scale = 1. / (1.-l.probability);
     dropout_gradient_kernel<<<(size+BLOCK-1)/BLOCK, BLOCK>>>(l, num, n_delta, scale);
 }
+
+void free_dropout_layer_gpu(Layer l)
+{
+    cudaFree(l.output);
+    cudaFree(l.delta);
+    cudaFree(l.dropout_rand);
+}

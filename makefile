@@ -18,6 +18,7 @@ VPATH=	./lib/: \
 		./utils/file/: \
 		./utils/str/: \
 		./utils/logging/: \
+		./utils/debug/: \
 		./: \
 		./lumos/core_cu/: \
 		./lumos/core_cu/graph_cu/: \
@@ -37,6 +38,7 @@ COMMON=	-Ilib \
 		-Iutils/file \
 		-Iutils/str \
 		-Iutils/logging \
+		-Iutils/debug \
 		-Ilumos/core_cu \
 		-Ilumos/core_cu/graph_cu \
 		-Ilumos/core_cu/ops_cu \
@@ -74,7 +76,8 @@ COMMON+= -Ilumos_t \
 		 -Ilumos_t/core_cu/ops \
 		 -Ilumos_t/core_cu/graph \
 		 -Ilumos_t/memory \
-		 -Ilumos_t/memory_cu
+		 -Ilumos_t/memory_cu \
+		 -Iutils/logging
 
 VPATH+=	./lumos_t \
 		./lumos_t/tool \
@@ -84,7 +87,8 @@ VPATH+=	./lumos_t \
 		./lumos_t/memory \
 		./lumos_t/core_cu/ops \
 		./lumos_t/core_cu/graph \
-		./lumos_t/memory_cu
+		./lumos_t/memory_cu \
+		./utils/logging
 endif
 
 OBJ=	avgpool_layer.o connect_layer.o convolutional_layer.o graph.o im2col_layer.o maxpool_layer.o \
@@ -93,7 +97,7 @@ OBJ=	avgpool_layer.o connect_layer.o convolutional_layer.o graph.o im2col_layer.
 		active.o bias.o cpu.o gemm.o im2col.o image.o pooling.o random.o softmax.o shortcut.o normalize.o \
 		session.o \
 		progress_bar.o \
-		binary_f.o text_f.o \
+		binary_f.o text_f.o debug_data.o\
 		str_ops.o logging.o \
 		xor.o lenet5_mnist.o lenet5_cifar10.o
 
@@ -104,7 +108,7 @@ OBJ+= 	active_gpu.o bias_gpu.o cpu_gpu.o gemm_gpu.o im2col_gpu.o pooling_gpu.o s
 EXECOBJA=lumos.o
 
 ifeq ($(TEST), 1)
-OBJ+=   analysis_benchmark_file.o compare.o run_test.o test_msg.o utest.o
+OBJ+=   analysis_benchmark_file.o compare.o run_test.o test_msg.o utest.o cJSON.o cJSON_Utils.o logging.o
 
 OBJ+= 	avgpool_layer_call.o connect_layer_call.o mse_layer_call.o
 

@@ -65,6 +65,11 @@ typedef saveweights SaveWeights;
 typedef void (*saveweights_gpu) (struct layer, FILE*);
 typedef saveweights_gpu SaveWeightsGpu;
 
+typedef void (*free_layer) (struct layer);
+typedef free_layer FreeLayer;
+typedef void (*free_layer_gpu) (struct layer);
+typedef free_layer_gpu FreeLayerGpu;
+
 struct layer{
     LayerType type;
     int status;
@@ -143,6 +148,9 @@ struct layer{
     Activation active;
     SaveWeights saveweights;
     SaveWeightsGpu saveweightsgpu;
+
+    FreeLayer freelayer;
+    FreeLayerGpu freelayergpu;
 };
 
 typedef struct graph{

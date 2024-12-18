@@ -29,6 +29,8 @@ void update_normalization_layer_weights_gpu(Layer l);
 
 void save_normalization_layer_weights_gpu(Layer l, FILE *fp);
 
+void free_normalization_layer_gpu(Layer l);
+
 #ifdef __cplusplus
 }
 #endif

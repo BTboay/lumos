@@ -16,6 +16,9 @@ Layer *make_shortcut_layer(int index, char *active)
 
     l->update = NULL;
 
+    l->freelayer = free_shortcut_layer;
+    l->freelayergpu = free_shortcut_layer_gpu;
+
     fprintf(stderr, "Shortcut        Layer    :    [index=%d, active=%s]\n", l->shortcut_index, l->active_str);
     return l;
 }
@@ -82,4 +85,9 @@ void backward_shortcut_layer(Layer l, float rate, int num, float *n_delta)
                      out, shortcut->input_w, shortcut->input_h, shortcut->input_c, \
                      1, 1, out);
     }
+}
+
+void free_shortcut_layer(Layer l)
+{
+    return ;
 }

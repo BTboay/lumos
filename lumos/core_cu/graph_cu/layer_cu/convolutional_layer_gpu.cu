@@ -155,3 +155,18 @@ void save_convolutional_layer_weights_gpu(Layer l, FILE *fp)
         save_normalization_layer_weights_gpu(l, fp);
     }
 }
+
+void free_convolutional_layer_gpu(Layer l)
+{
+    cudaFree(l.output);
+    cudaFree(l.delta);
+    cudaFree(l.kernel_weights);
+    cudaFree(l.update_kernel_weights);
+    if (l.bias){
+        cudaFree(l.bias_weights);
+        cudaFree(l.update_bias_weights);
+    }
+    if (l.normalize){
+        free_normalization_layer_gpu(l);
+    }
+}

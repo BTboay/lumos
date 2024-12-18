@@ -29,6 +29,8 @@ void update_convolutional_layer_weights(Layer l);
 
 void save_convolutional_layer_weights(Layer l, FILE *fp);
 
+void free_convolutional_layer(Layer l);
+
 #ifdef __cplusplus
 }
 #endif

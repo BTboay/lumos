@@ -27,6 +27,8 @@ void update_connect_layer_weights(Layer l);
 
 void save_connect_layer_weights(Layer l, FILE *fp);
 
+void free_connect_layer(Layer l);
+
 #ifdef __cplusplus
 }
 #endif

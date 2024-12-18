@@ -27,6 +27,9 @@ Layer *make_connect_layer(int output, int bias, char *active)
     l->saveweights = save_connect_layer_weights;
     l->saveweightsgpu = save_connect_layer_weights_gpu;
 
+    l->freelayer = free_connect_layer;
+    l->freelayergpu = free_connect_layer_gpu;
+
     fprintf(stderr, "Connect         Layer    :    [output=%4d, bias=%d, active=%s]\n", l->ksize, l->bias, active);
     return l;
 }
@@ -142,5 +145,17 @@ void save_connect_layer_weights(Layer l, FILE *fp)
     fwrite(l.kernel_weights, sizeof(float), l.inputs*l.outputs, fp);
     if (l.bias){
         fwrite(l.bias_weights, sizeof(float), l.outputs, fp);
+    }
+}
+
+void free_connect_layer(Layer l)
+{
+    free(l.output);
+    free(l.delta);
+    free(l.kernel_weights);
+    free(l.update_kernel_weights);
+    if (l.bias){
+        free(l.bias_weights);
+        free(l.update_bias_weights);
     }
 }

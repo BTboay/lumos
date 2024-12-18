@@ -23,6 +23,8 @@ void update_normalization_layer_weights(Layer l);
 
 void save_normalization_layer_weights(Layer l, FILE *fp);
 
+void free_normalization_layer(Layer l);
+
 #ifdef __cplusplus
 }
 #endif

@@ -147,3 +147,19 @@ void save_weights(Graph *g, int coretype, FILE *fp)
         layer = layer->next;
     }
 }
+
+void free_graph(Graph *g, int coretype)
+{
+    Node *layer = g->head;
+    Layer *l;
+    for (;;){
+        if (layer){
+            l = layer->l;
+            if (coretype == GPU && l->freelayergpu) l->freelayergpu(*l);
+            if (coretype == CPU && l->freelayer) l->freelayer(*l);
+        } else {
+            break;
+        }
+        layer = layer->next;
+    }
+}

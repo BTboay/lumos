@@ -22,6 +22,9 @@ Layer *make_im2col_layer()
     l->saveweights = NULL;
     l->saveweightsgpu = NULL;
 
+    l->freelayer = free_im2col_layer;
+    l->freelayergpu = free_im2col_layer_gpu;
+
     fprintf(stderr, "Im2col          Layer\n");
     return l;
 }
@@ -54,4 +57,10 @@ void forward_im2col_layer(Layer l, int num)
 void backward_im2col_layer(Layer l, float rate, int num, float *n_delta)
 {
     memcpy(l.delta, n_delta, num*l.inputs*sizeof(float));
+}
+
+void free_im2col_layer(Layer l)
+{
+    free(l.output);
+    free(l.delta);
 }

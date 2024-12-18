@@ -21,6 +21,8 @@ void init_softmax_layer(Layer *l, int w, int h, int c, int subdivision);
 void forward_softmax_layer(Layer l, int num);
 void backward_softmax_layer(Layer l, float rate, int num, float *n_delta);
 
+void free_softmax_layer(Layer l);
+
 #ifdef __cplusplus
 }
 #endif

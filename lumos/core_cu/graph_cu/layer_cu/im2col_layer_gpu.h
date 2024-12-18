@@ -20,6 +20,8 @@ void init_im2col_layer_gpu(Layer *l, int w, int h, int c, int subdivision);
 void forward_im2col_layer_gpu(Layer l, int num);
 void backward_im2col_layer_gpu(Layer l, float rate, int num, float *n_delta);
 
+void free_im2col_layer_gpu(Layer l);
+
 #ifdef __cplusplus
 }
 #endif

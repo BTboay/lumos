@@ -28,6 +28,8 @@ void backward_dropout_layer_gpu(Layer l, float rate, int num, float *n_delta);
 void dropout_gpu(Layer l, int num);
 void dropout_gradient_gpu(Layer l, int num, float *n_delta);
 
+void free_dropout_layer_gpu(Layer l);
+
 #ifdef __cplusplus
 }
 #endif

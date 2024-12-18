@@ -51,3 +51,9 @@ void backward_mse_layer_gpu(Layer l, float rate, int num, float *n_delta)
         multy_gpu(delta_l, l.inputs, (float)2/l.group, 1);
     }
 }
+
+void free_mse_layer_gpu(Layer l)
+{
+    cudaFree(l.output);
+    cudaFree(l.delta);
+}

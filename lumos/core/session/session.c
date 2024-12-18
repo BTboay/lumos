@@ -204,6 +204,7 @@ void train(Session *sess)
         save_weights(sess->graph, sess->coretype, fp);
         fclose(fp);
     }
+    free_graph(g, sess->coretype);
     fprintf(stderr, "\n\nSession Training Finished\n");
 }
 
@@ -244,5 +245,6 @@ void detect_classification(Session *sess)
         }
         fprintf(stderr, "Loss:%.4f\n\n", loss[0]);
     }
+    free_graph(g, sess->coretype);
     fprintf(stderr, "Detct Classification: %d/%d  %.2f\n", num, sess->train_data_num, (float)(num)/(float)(sess->train_data_num));
 }

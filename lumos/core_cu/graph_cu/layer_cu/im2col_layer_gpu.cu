@@ -29,3 +29,9 @@ void backward_im2col_layer_gpu(Layer l, float rate, int num, float *n_delta)
 {
     cudaMemcpy(l.delta, n_delta, num*l.inputs*sizeof(float), cudaMemcpyDeviceToDevice);
 }
+
+void free_im2col_layer_gpu(Layer l)
+{
+    cudaFree(l.output);
+    cudaFree(l.delta);
+}

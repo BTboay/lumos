@@ -44,3 +44,9 @@ void backward_avgpool_layer_gpu(Layer l, float rate, int num, float *n_delta)
         avgpool_gradient_gpu(delta_l, l.input_h, l.input_w, l.input_c, l.ksize, l.stride, l.pad, delta_n);
     }
 }
+
+void free_avgpool_layer_gpu(Layer l)
+{
+    cudaFree(l.output);
+    cudaFree(l.delta);
+}
