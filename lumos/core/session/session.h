@@ -46,6 +46,10 @@ typedef struct session{
     char *weights_path;
 
     int optimize;
+
+    int dynamic_learning_rate;
+    int step_size;
+    float gamma;
 } Session;
 
 Session *create_session(Graph *graph, int h, int w, int c, int truth_num, char *type, char *path);
@@ -64,6 +68,7 @@ void load_train_data(Session *sess, int index);
 void load_train_label(Session *sess, int index);
 
 void optimize_dataset(Session *sess);
+void dynamic_learning_rate(Session *sess, int step_size, float gamma);
 
 #ifdef __cplusplus
 }

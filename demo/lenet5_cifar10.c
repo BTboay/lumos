@@ -28,7 +28,7 @@ void lenet5_cifar10(char *type, char *path)
     Session *sess = create_session(g, 32, 32, 3, 10, type, path);
     set_train_params(sess, 300, 16, 16, 0.001);
     init_session(sess, "./data/cifar10/train.txt", "./data/cifar10/train_label.txt");
-    optimize_dataset(sess);
+    dynamic_learning_rate(sess, 100, 1);
     train(sess);
 }
 
@@ -60,6 +60,5 @@ void lenet5_cifar10_detect(char *type, char *path)
     Session *sess = create_session(g, 32, 32, 3, 10, type, path);
     set_detect_params(sess);
     init_session(sess, "./data/cifar10/test.txt", "./data/cifar10/test_label.txt");
-    optimize_dataset(sess);
     detect_classification(sess);
 }

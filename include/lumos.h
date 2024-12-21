@@ -207,6 +207,7 @@ void set_detect_params(Session *sess);
 void train(Session *sess);
 void detect_classification(Session *sess);
 void optimize_dataset(Session *sess);
+void dynamic_learning_rate(Session *sess, int step_size, float gamma);
 
 Graph *create_graph();
 void append_layer2grpah(Graph *graph, Layer *l);

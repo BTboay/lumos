@@ -188,6 +188,10 @@ void train(Session *sess)
             }
             update_graph(sess->graph, sess->coretype);
         }
+        if (sess->dynamic_learning_rate && (i+1) % sess->step_size == 0){
+            rate *= sess->gamma/10;
+        }
+        if (i == (sess->epoch - 2)) rate = -sess->learning_rate / (float)sess->batch;
     }
     FILE *fp = fopen("./LuWeights", "wb");
     if (fp) {
@@ -242,4 +246,11 @@ void detect_classification(Session *sess)
 void optimize_dataset(Session *sess)
 {
     sess->optimize = 1;
+}
+
+void dynamic_learning_rate(Session *sess, int step_size, float gamma)
+{
+    sess->dynamic_learning_rate = 1;
+    sess->step_size = step_size;
+    sess->gamma = gamma;
 }
