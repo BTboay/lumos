@@ -99,7 +99,7 @@ OBJ=	avgpool_layer.o connect_layer.o convolutional_layer.o graph.o im2col_layer.
 		softmax_layer.o dropout_layer.o normalization_layer.o \
 		mse_layer.o \
 		active.o bias.o cpu.o gemm.o im2col.o image.o pooling.o random.o softmax.o shortcut.o normalize.o \
-		session.o \
+		session.o optimize.o \
 		progress_bar.o \
 		binary_f.o text_f.o debug_data.o\
 		str_ops.o logging.o

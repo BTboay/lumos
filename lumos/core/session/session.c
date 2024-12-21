@@ -116,6 +116,9 @@ void load_train_data(Session *sess, int index)
         char *data_path = sess->train_data_paths[i];
         im = load_image_data(data_path, w, h, c);
         resize_im(im, h[0], w[0], c[0], sess->height, sess->width, input + offset_i);
+        if (sess->optimize){
+            normalize_zscore(input + offset_i, sess->height * sess->width * sess->channel);
+        }
         offset_i += sess->height * sess->width * sess->channel;
         free(im);
     }
@@ -234,4 +237,9 @@ void detect_classification(Session *sess)
     }
     free_graph(g, sess->coretype);
     fprintf(stderr, "Detct Classification: %d/%d  %.2f\n", num, sess->train_data_num, (float)(num)/(float)(sess->train_data_num));
+}
+
+void optimize_dataset(Session *sess)
+{
+    sess->optimize = 1;
 }

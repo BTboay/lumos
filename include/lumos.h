@@ -196,6 +196,8 @@ struct session{
     char **train_label_paths;
 
     char *weights_path;
+
+    int optimize;
 };
 
 Session *create_session(Graph *graph, int h, int w, int c, int truth_num, char *type, char *path);
@@ -204,6 +206,7 @@ void set_train_params(Session *sess, int epoch, int batch, int subdivision, floa
 void set_detect_params(Session *sess);
 void train(Session *sess);
 void detect_classification(Session *sess);
+void optimize_dataset(Session *sess);
 
 Graph *create_graph();
 void append_layer2grpah(Graph *graph, Layer *l);

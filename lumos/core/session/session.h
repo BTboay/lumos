@@ -10,6 +10,7 @@
 #include "binary_f.h"
 #include "image.h"
 #include "progress_bar.h"
+#include "optimize.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,6 +44,8 @@ typedef struct session{
     char **train_label_paths;
 
     char *weights_path;
+
+    int optimize;
 } Session;
 
 Session *create_session(Graph *graph, int h, int w, int c, int truth_num, char *type, char *path);
@@ -59,6 +62,8 @@ void detect_classification(Session *sess);
 
 void load_train_data(Session *sess, int index);
 void load_train_label(Session *sess, int index);
+
+void optimize_dataset(Session *sess);
 
 #ifdef __cplusplus
 }
