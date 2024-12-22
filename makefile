@@ -1,5 +1,5 @@
 LINUX=1
-TEST=0
+TEST=1
 DEBUG=0
 MEMDEBUG=0
 
@@ -117,11 +117,11 @@ OBJ+= 	avgpool_layer_call.o connect_layer_call.o mse_layer_call.o
 
 OBJ+= 	avgpool_layer_gpu_call.o connect_layer_gpu_call.o mse_layer_gpu_call.o
 
-OBJ+=	im2col_call.o
+OBJ+=	im2col_call.o pooling_call.o
 endif
 
 ifeq ($(TEST), 0)
-OBJ+=	xor.o lenet5_mnist.o lenet5_cifar10.o
+OBJ+=	xor.o lenet5_mnist.o lenet5_cifar10.o dvc.o
 endif
 
 ifeq ($(TEST),1)
