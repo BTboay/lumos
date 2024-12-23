@@ -45,9 +45,9 @@ void weightinit_connect_layer_gpu(Layer l, FILE *fp)
         return;
     }
     float *kernel_weights = (float*)calloc(l.inputs*l.outputs, sizeof(float));
-    float scale = sqrt((float)6 / l.inputs);
+    float scale = sqrt((float)2 / l.inputs);
     for (int i = 0; i < l.inputs*l.outputs; ++i){
-        kernel_weights[i] = scale*rand_uniform(0, 1);
+        kernel_weights[i] = scale*rand_uniform(-1, 1);
     }
     if (l.bias){
         float *bias_weights = (float*)calloc(l.outputs, sizeof(float));

@@ -78,11 +78,11 @@ void weightinit_convolutional_layer(Layer l, FILE *fp)
         }
         return;
     }
-    float scale = sqrt((float)6 / (l.ksize*l.ksize*l.input_c));
+    float scale = sqrt((float)2 / (l.ksize*l.ksize*l.input_c));
     for (int i = 0; i < l.filters; ++i){
         float *weight = l.kernel_weights + i*l.input_c*l.ksize*l.ksize;
         for (int j = 0; j < l.ksize*l.ksize; ++j){
-            weight[j] = scale*rand_uniform(0, 1);
+            weight[j] = scale*rand_normal();
         }
         for (int j = 0; j < l.input_c-1; ++j){
             float *weight_c = weight + (j+1)*l.ksize*l.ksize;
