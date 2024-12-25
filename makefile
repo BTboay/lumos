@@ -121,7 +121,7 @@ OBJ+=	im2col_call.o pooling_call.o
 endif
 
 ifeq ($(TEST), 0)
-OBJ+=	xor.o lenet5_mnist.o lenet5_cifar10.o dvc.o
+OBJ+=	xor.o lenet5_mnist.o lenet5_cifar10.o dvc.o lenet5_dvc.o alexnet.o
 endif
 
 ifeq ($(TEST),1)

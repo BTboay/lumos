@@ -3,17 +3,17 @@
 void dvc(char *type, char *path)
 {
     Graph *g = create_graph();
-    Layer *l1 = make_convolutional_layer(32, 3, 1, 1, 1, 0, "leaky");
+    Layer *l1 = make_convolutional_layer(32, 3, 1, 1, 1, 0, "relu");
     Layer *l2 = make_maxpool_layer(2, 2, 0);
-    Layer *l3 = make_convolutional_layer(32, 3, 1, 1, 1, 0, "leaky");
+    Layer *l3 = make_convolutional_layer(32, 3, 1, 1, 1, 0, "relu");
     Layer *l4 = make_maxpool_layer(2, 2, 0);
-    Layer *l5 = make_convolutional_layer(64, 3, 1, 1, 1, 0, "leaky");
+    Layer *l5 = make_convolutional_layer(64, 3, 1, 1, 1, 0, "relu");
     Layer *l6 = make_maxpool_layer(2, 2, 0);
     Layer *l7 = make_dropout_layer(0.25);
     Layer *l8 = make_im2col_layer();
-    Layer *l9 = make_connect_layer(64, 1, "leaky");
+    Layer *l9 = make_connect_layer(64, 1, "relu");
     Layer *l10 = make_dropout_layer(0.5);
-    Layer *l11 = make_connect_layer(2, 1, "leaky");
+    Layer *l11 = make_connect_layer(2, 1, "relu");
     Layer *l12 = make_softmax_layer(2);
     Layer *l13 = make_mse_layer(2);
     append_layer2grpah(g, l1);
@@ -30,8 +30,8 @@ void dvc(char *type, char *path)
     append_layer2grpah(g, l12);
     append_layer2grpah(g, l13);
     Session *sess = create_session(g, 150, 150, 3, 2, type, path);
-    set_train_params(sess, 50, 4, 4, 0.01);
-    init_session(sess, "./data/dogvscat/train.txt", "./data/dogvscat/train_label.txt");
+    set_train_params(sess, 50, 32, 32, 0.001);
+    init_session(sess, "./build/path.txt", "./data/dogvscat/train_label.txt");
     optimize_dataset(sess);
     train(sess);
 }
@@ -39,17 +39,17 @@ void dvc(char *type, char *path)
 void dvc_detect(char*type, char *path)
 {
     Graph *g = create_graph();
-    Layer *l1 = make_convolutional_layer(32, 3, 1, 0, 1, 0, "leaky");
+    Layer *l1 = make_convolutional_layer(32, 3, 1, 0, 1, 0, "relu");
     Layer *l2 = make_maxpool_layer(2, 2, 0);
-    Layer *l3 = make_convolutional_layer(32, 3, 1, 0, 1, 0, "leaky");
+    Layer *l3 = make_convolutional_layer(32, 3, 1, 0, 1, 0, "relu");
     Layer *l4 = make_maxpool_layer(2, 2, 0);
-    Layer *l5 = make_convolutional_layer(64, 3, 1, 0, 1, 0, "leaky");
+    Layer *l5 = make_convolutional_layer(64, 3, 1, 0, 1, 0, "relu");
     Layer *l6 = make_maxpool_layer(2, 2, 0);
     Layer *l7 = make_dropout_layer(0.25);
     Layer *l8 = make_im2col_layer();
-    Layer *l9 = make_connect_layer(64, 1, "leaky");
+    Layer *l9 = make_connect_layer(64, 1, "relu");
     Layer *l10 = make_dropout_layer(0.5);
-    Layer *l11 = make_connect_layer(2, 1, "leaky");
+    Layer *l11 = make_connect_layer(2, 1, "relu");
     Layer *l12 = make_softmax_layer(2);
     Layer *l13 = make_mse_layer(2);
     append_layer2grpah(g, l1);
