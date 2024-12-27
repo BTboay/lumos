@@ -7,6 +7,7 @@
 
 int main()
 {
-    alexnet("gpu", NULL);
+    lenet5_mnist("gpu", NULL);
+    lenet5_mnist_detect("gpu", "./LuWeights");
     return 0;
 }
