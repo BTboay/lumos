@@ -7,6 +7,6 @@
 
 int main()
 {
-    lenet5_cifar10("gpu", NULL);
+    alexnet("gpu", NULL);
     return 0;
 }

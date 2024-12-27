@@ -188,10 +188,6 @@ void train(Session *sess)
             }
             update_graph(sess->graph, sess->coretype);
         }
-        if (sess->dynamic_learning_rate && (i+1) % sess->step_size == 0){
-            rate *= sess->gamma/10;
-        }
-        if (i == (sess->epoch - 2)) rate = -sess->learning_rate / (float)sess->batch;
     }
     FILE *fp = fopen("./LuWeights", "wb");
     if (fp) {

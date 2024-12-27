@@ -56,7 +56,7 @@ CFLAGS=-fopenmp -Wall -Wno-unused-result -Wno-unknown-pragmtensor -Wfatal-errors
 
 COMMON+= -DGPU -I/usr/local/cuda/include/
 CFLAGS+= -DGPU -Wno-deprecated-gpu-targets
-LDFLAGS+= -L/usr/local/cuda-12.1/targets/x86_64-linux/lib -lcudart -lcublas -lcurand
+LDFLAGS+= -L/usr/local/cuda-12.4/targets/x86_64-linux/lib -lcudart -lcublas -lcurand
 
 ifeq ($(DEBUG), 1)
 CFLAGS+= -g

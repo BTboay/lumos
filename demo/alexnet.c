@@ -16,8 +16,7 @@ void alexnet(char *type, char *path)
     Layer *l11 = make_connect_layer(240, 1, "relu");
     Layer *l12 = make_connect_layer(84, 1, "relu");
     Layer *l13 = make_dropout_layer(0.5);
-    Layer *l14 = make_connect_layer(2, 1, "relu");
-    Layer *l15 = make_softmax_layer(2);
+    Layer *l14 = make_connect_layer(2, 1, "logistic");
     Layer *l16 = make_mse_layer(2);
     append_layer2grpah(g, l1);
     append_layer2grpah(g, l2);
@@ -33,10 +32,9 @@ void alexnet(char *type, char *path)
     append_layer2grpah(g, l12);
     append_layer2grpah(g, l13);
     append_layer2grpah(g, l14);
-    append_layer2grpah(g, l15);
     append_layer2grpah(g, l16);
     Session *sess = create_session(g, 150, 150, 3, 2, type, path);
-    set_train_params(sess, 200, 32, 32, 0.0001);
+    set_train_params(sess, 200, 8, 8, 0.01);
     init_session(sess, "./build/path.txt", "./data/dogvscat/train_label.txt");
     train(sess);
 }
