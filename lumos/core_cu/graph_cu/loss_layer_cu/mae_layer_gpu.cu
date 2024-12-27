@@ -49,7 +49,7 @@ void backward_mae_layer_gpu(Layer l, float rate, int num, float *n_delta)
         float *truth = l.truth+offset_t;
         matrix_subtract_gpu(input, truth, l.inputs, delta_l);
         delta_absolute_gpu(delta_l, l.inputs, 1);
-        multy_gpu(delta_l, l.inputs, (float)2/l.group, 1);
+        multy_gpu(delta_l, l.inputs, (float)1/l.group, 1);
     }
 }
 
@@ -57,4 +57,29 @@ void free_mae_layer_gpu(Layer l)
 {
     cudaFree(l.output);
     cudaFree(l.delta);
+}
+
+__global__ void absolute_kernel(float *data, int len, int offset)
+{
+    int index = (threadIdx.x + blockIdx.x * blockDim.x)*offset;
+    if (index >= len) return;
+    data[index] = fabs(data[index]);
+}
+
+__global__ void delta_absolute_kernel(float *data, int len, int offset)
+{
+    int index = (threadIdx.x + blockIdx.x * blockDim.x)*offset;
+    if (index >= len) return;
+    if (data[index] >= 0) data[index] = 1;
+    else data[index] = -1;
+}
+
+void absolute_gpu(float *data, int len, int offset)
+{
+    absolute_kernel<<<(len+BLOCK-1)/BLOCK, BLOCK>>>(data, len, offset);
+}
+
+void delta_absolute_gpu(float *data, int len, int offset)
+{
+    delta_absolute_kernel<<<(len+BLOCK-1)/BLOCK, BLOCK>>>(data, len, offset);
 }

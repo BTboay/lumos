@@ -17,7 +17,7 @@ extern "C" {
 typedef enum {
     CONVOLUTIONAL, CONNECT, IM2COL, MAXPOOL, AVGPOOL, \
     DROPOUT, SOFTMAX, SHORTCUT, NORMALIZE, \
-    MSE, MAE
+    MSE, MAE, CE
 } LayerType;
 
 typedef struct layer Layer;

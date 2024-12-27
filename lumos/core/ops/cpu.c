@@ -24,21 +24,6 @@ void add_cpu(float *data, int len, float x, int offset)
     }
 }
 
-void delta_absolute_cpu(float *data, int len, int offset)
-{
-    for (int i = 0; i < len; i+=offset){
-        if (data[i] >= 0) data[i] = 1;
-        else data[i] = -1;
-    }
-}
-
-void absolute_cpu(float *data, int len, int offset)
-{
-    for (int i = 0; i < len; i+=offset){
-        data[i] = fabs(data[i]);
-    }
-}
-
 void min_cpu(float *data, int num, float *space)
 {
     float min = data[0];

@@ -222,5 +222,6 @@ Layer *make_softmax_layer(int group);
 
 Layer *make_mse_layer(int group);
 Layer *make_mae_layer(int group);
+Layer *make_ce_layer(int group);
 
 #endif

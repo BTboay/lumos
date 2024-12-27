@@ -13,8 +13,6 @@ extern "C"{
 void fill_cpu(float *data, int len, float x, int offset);
 void multy_cpu(float *data, int len, float x, int offset);
 void add_cpu(float *data, int len, float x, int offset);
-void absolute_cpu(float *data, int len, int offset);
-void delta_absolute_cpu(float *data, int len, int offset);
 
 void min_cpu(float *data, int num, float *space);
 void max_cpu(float *data, int num, float *space);

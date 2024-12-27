@@ -21,21 +21,6 @@ __global__ void add_kernel(float *data, int len, float x, int offset)
     data[index] += x;
 }
 
-__global__ void absolute_kernel(float *data, int len, int offset)
-{
-    int index = (threadIdx.x + blockIdx.x * blockDim.x)*offset;
-    if (index >= len) return;
-    data[index] = fabs(data[index]);
-}
-
-__global__ void delta_absolute_kernel(float *data, int len, int offset)
-{
-    int index = (threadIdx.x + blockIdx.x * blockDim.x)*offset;
-    if (index >= len) return;
-    if (data[index] >= 0) data[index] = 1;
-    else data[index] = -1;
-}
-
 void fill_gpu(float *data, int len, float x, int offset)
 {
     fill_kernel<<<(len+BLOCK-1)/BLOCK, BLOCK>>>(data, len, x, offset);
@@ -49,16 +34,6 @@ void multy_gpu(float *data, int len, float x, int offset)
 void add_gpu(float *data, int len, float x, int offset)
 {
     add_kernel<<<(len+BLOCK-1)/BLOCK, BLOCK>>>(data, len, x, offset);
-}
-
-void absolute_gpu(float *data, int len, int offset)
-{
-    absolute_kernel<<<(len+BLOCK-1)/BLOCK, BLOCK>>>(data, len, offset);
-}
-
-void delta_absolute_gpu(float *data, int len, int offset)
-{
-    delta_absolute_kernel<<<(len+BLOCK-1)/BLOCK, BLOCK>>>(data, len, offset);
 }
 
 __global__ void matrix_add_kernel(float *data_a, float *data_b, int num, float *space)

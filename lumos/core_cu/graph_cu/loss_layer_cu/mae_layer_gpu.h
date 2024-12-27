@@ -25,6 +25,9 @@ void backward_mae_layer_gpu(Layer l, float rate, int num, float *n_delta);
 
 void free_mae_layer_gpu(Layer l);
 
+void absolute_gpu(float *data, int len, int offset);
+void delta_absolute_gpu(float *data, int len, int offset);
+
 #ifdef __cplusplus
 }
 #endif

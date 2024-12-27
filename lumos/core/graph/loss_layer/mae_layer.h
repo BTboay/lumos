@@ -19,6 +19,9 @@ void backward_mae_layer(Layer l, float rate, int num, float *n_delta);
 
 void free_mae_layer(Layer l);
 
+void absolute(float *data, int len, int offset);
+void delta_absolute(float *data, int len, int offset);
+
 #ifdef __cplusplus
 }
 #endif

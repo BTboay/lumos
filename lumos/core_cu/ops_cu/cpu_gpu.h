@@ -18,8 +18,6 @@ extern "C" {
 void fill_gpu(float *data, int len, float x, int offset);
 void multy_gpu(float *data, int len, float x, int offset);
 void add_gpu(float *data, int len, float x, int offset);
-void absolute_gpu(float *data, int len, int offset);
-void delta_absolute_gpu(float *data, int len, int offset);
 
 void min_gpu(float *data, int num, float *space);
 void max_gpu(float *data, int num, float *space);
