@@ -20,8 +20,6 @@
 #include "bias_gpu.h"
 #include "normalization_layer_gpu.h"
 
-#include "debug_data.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif

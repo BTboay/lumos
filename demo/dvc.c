@@ -32,7 +32,6 @@ void dvc(char *type, char *path)
     Session *sess = create_session(g, 150, 150, 3, 2, type, path);
     set_train_params(sess, 50, 32, 32, 0.001);
     init_session(sess, "./build/path.txt", "./data/dogvscat/train_label.txt");
-    optimize_dataset(sess);
     train(sess);
 }
 
@@ -68,6 +67,5 @@ void dvc_detect(char*type, char *path)
     Session *sess = create_session(g, 150, 150, 3, 2, type, path);
     set_detect_params(sess);
     init_session(sess, "./data/dogvscat/train.txt", "./data/dogvscat/train_label.txt");
-    optimize_dataset(sess);
     detect_classification(sess);
 }

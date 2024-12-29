@@ -45,11 +45,7 @@ typedef struct session{
 
     char *weights_path;
 
-    int optimize;
-
-    int dynamic_learning_rate;
-    int step_size;
-    float gamma;
+    LrScheduler *lrscheduler;
 } Session;
 
 Session *create_session(Graph *graph, int h, int w, int c, int truth_num, char *type, char *path);
@@ -67,8 +63,10 @@ void detect_classification(Session *sess);
 void load_train_data(Session *sess, int index);
 void load_train_label(Session *sess, int index);
 
-void optimize_dataset(Session *sess);
-void dynamic_learning_rate(Session *sess, int step_size, float gamma);
+void lr_scheduler_step(Session *sess, int step_size, float gamma);
+void lr_scheduler_multistep(Session *sess, int *milestones, int num, float gamma);
+void lr_scheduler_exponential(Session *sess, float gamma);
+void lr_scheduler_cosineannealing(Session *sess, int T_max, float lr_min);
 
 #ifdef __cplusplus
 }

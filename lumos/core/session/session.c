@@ -14,6 +14,7 @@ Session *create_session(Graph *graph, int h, int w, int c, int truth_num, char *
     sess->channel = c;
     sess->truth_num = truth_num;
     sess->weights_path = path;
+    sess->lrscheduler = NULL;
     return sess;
 }
 
@@ -116,9 +117,6 @@ void load_train_data(Session *sess, int index)
         char *data_path = sess->train_data_paths[i];
         im = load_image_data(data_path, w, h, c);
         resize_im(im, h[0], w[0], c[0], sess->height, sess->width, input + offset_i);
-        if (sess->optimize){
-            normalize_zscore(input + offset_i, sess->height * sess->width * sess->channel);
-        }
         offset_i += sess->height * sess->width * sess->channel;
         free(im);
     }
@@ -159,6 +157,7 @@ void train(Session *sess)
 {
     fprintf(stderr, "\nSession Start To Running\n");
     float rate = -sess->learning_rate / (float)sess->batch;
+    float lr_max = rate;
     float *loss = calloc(1, sizeof(float));
     clock_t start, final;
     double run_time = 0;
@@ -188,8 +187,18 @@ void train(Session *sess)
             }
             update_graph(sess->graph, sess->coretype);
         }
+        if ((i+1) % 100 == 0){
+            char str[50];
+            sprintf(str, "./build/LW_%d", i+1);
+            FILE *fp = fopen(str, "wb");
+            if (fp) {
+                save_weights(sess->graph, sess->coretype, fp);
+                fclose(fp);
+            }
+        }
+        rate = run_lrscheduler(sess->lrscheduler, rate, lr_max, i);
     }
-    FILE *fp = fopen("./LuWeights", "wb");
+    FILE *fp = fopen("./build/LW_f", "wb");
     if (fp) {
         save_weights(sess->graph, sess->coretype, fp);
         fclose(fp);
@@ -239,14 +248,26 @@ void detect_classification(Session *sess)
     fprintf(stderr, "Detct Classification: %d/%d  %.2f\n", num, sess->train_data_num, (float)(num)/(float)(sess->train_data_num));
 }
 
-void optimize_dataset(Session *sess)
+void lr_scheduler_step(Session *sess, int step_size, float gamma)
 {
-    sess->optimize = 1;
+    LrScheduler *lrscheduler = make_lrscheduler(SLR, 0, step_size, NULL, 0, 0, gamma);
+    sess->lrscheduler = lrscheduler;
 }
 
-void dynamic_learning_rate(Session *sess, int step_size, float gamma)
+void lr_scheduler_multistep(Session *sess, int *milestones, int num, float gamma)
 {
-    sess->dynamic_learning_rate = 1;
-    sess->step_size = step_size;
-    sess->gamma = gamma;
+    LrScheduler *lrscheduler = make_lrscheduler(MLR, num, 0, milestones, 0, 0, gamma);
+    sess->lrscheduler = lrscheduler;
+}
+
+void lr_scheduler_exponential(Session *sess, float gamma)
+{
+    LrScheduler *lrscheduler = make_lrscheduler(ELR, 0, 0, NULL, 0, 0, gamma);
+    sess->lrscheduler = lrscheduler;
+}
+
+void lr_scheduler_cosineannealing(Session *sess, int T_max, float lr_min)
+{
+    LrScheduler *lrscheduler = make_lrscheduler(CALR, 0, 0, NULL, T_max, lr_min, 0);
+    sess->lrscheduler = lrscheduler;
 }

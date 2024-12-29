@@ -32,7 +32,6 @@ void forward_ce_layer_gpu(Layer l, int num)
         float *truth = l.truth+offset_t;
         cross_entropy_gpu(input, truth, l.inputs, l.workspace);
         sum_gpu(l.workspace, l.inputs, output);
-        multy_gpu(output, l.outputs, -1/(float)l.group, 1);
     }
     sum_gpu(l.output, l.outputs*num, l.loss);
     multy_gpu(l.loss, 1, (float)1/num, 1);
@@ -47,7 +46,6 @@ void backward_ce_layer_gpu(Layer l, float rate, int num, float *n_delta)
         float *delta_l = l.delta+offset_i;
         float *truth = l.truth+offset_t;
         delta_cross_entropy_gpu(input, truth, l.inputs, delta_l);
-        multy_gpu(delta_l, l.inputs, -(float)1/l.group, 1);
     }
 }
 
@@ -61,14 +59,14 @@ __global__ void cross_entropy_kernel(float *input, float *truth, int len, float 
 {
     int index = threadIdx.x + blockIdx.x * blockDim.x;
     if (index >= len) return;
-    space[index] = truth[index]*log(input[index])+(1-truth[index])*log(1-input[index]);
+    space[index] = -log(input[index])*truth[index];
 }
 
 __global__ void delta_cross_entropy_kernel(float *input, float *truth, int len, float *space)
 {
     int index = threadIdx.x + blockIdx.x * blockDim.x;
     if (index >= len) return;
-    space[index] = truth[index] / input[index] - (1-truth[index]) / (1-input[index]);
+    space[index] = -truth[index] / input[index];
 }
 
 void cross_entropy_gpu(float *input, float *truth, int len, float *space)

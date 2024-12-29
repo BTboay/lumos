@@ -4,10 +4,11 @@
 #include "image.h"
 #include "lenet5_dvc.h"
 #include "alexnet.h"
+#include "xor.h"
 
 int main()
 {
-    lenet5_mnist("gpu", NULL);
-    lenet5_mnist_detect("gpu", "./LuWeights");
+    lenet5_cifar10("gpu", NULL);
+    // lenet5_cifar10_detect("gpu", "./build/LW_f");
     return 0;
 }

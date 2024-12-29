@@ -62,7 +62,6 @@ void forward_ce_layer(Layer l, int num)
         float *truth = l.truth+offset_t;
         cross_entropy(input, truth, l.inputs, l.workspace);
         sum_cpu(l.workspace, l.inputs, output);
-        multy_cpu(output, l.outputs, -1/(float)l.group, 1);
     }
     sum_cpu(l.output, l.outputs*num, l.loss);
     multy_cpu(l.loss, 1, (float)1/num, 1);
@@ -77,7 +76,6 @@ void backward_ce_layer(Layer l, float rate, int num, float *n_delta)
         float *delta_l = l.delta+offset_i;
         float *truth = l.truth+offset_t;
         delta_cross_entropy(input, truth, l.inputs, delta_l);
-        multy_cpu(delta_l, l.inputs, -(float)1/l.group, 1);
     }
 }
 
@@ -90,13 +88,13 @@ void free_ce_layer(Layer l)
 void cross_entropy(float *input, float *truth, int len, float *space)
 {
     for (int i = 0; i < len; ++i){
-        space[i] = truth[i]*log(input[i])+(1-truth[i])*log(1-input[i]);
+        space[i] = -log(input[i])*truth[i];
     }
 }
 
 void delta_cross_entropy(float *input, float *truth, int len, float *space)
 {
     for (int i = 0; i < len; ++i){
-        space[i] = truth[i] / input[i] - (1-truth[i]) / (1-input[i]);
+        space[i] = -truth[i] / input[i];
     }
 }
