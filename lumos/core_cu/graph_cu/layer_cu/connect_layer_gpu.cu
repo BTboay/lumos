@@ -47,11 +47,11 @@ void weightinit_connect_layer_gpu(Layer l, FILE *fp)
     float *kernel_weights = (float*)calloc(l.inputs*l.outputs, sizeof(float));
     float scale = sqrt((float)2 / l.inputs);
     for (int i = 0; i < l.inputs*l.outputs; ++i){
-        kernel_weights[i] = scale*rand_uniform(-1, 1);
+        kernel_weights[i] = scale*rand_uniform(-1, 1)*0.01;
     }
     if (l.bias){
         float *bias_weights = (float*)calloc(l.outputs, sizeof(float));
-        fill_cpu(bias_weights, l.outputs, 0.001, 1);
+        fill_cpu(bias_weights, l.outputs, 0, 1);
         cudaMemcpy(l.bias_weights, bias_weights, l.outputs*sizeof(float), cudaMemcpyHostToDevice);
         cudaMemcpy(l.update_bias_weights, bias_weights, l.outputs*sizeof(float), cudaMemcpyHostToDevice);
         free(bias_weights);

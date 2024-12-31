@@ -14,7 +14,7 @@ void xor(char *type, char *path)
     Session *sess = create_session(g, 1, 2, 1, 2, type, path);
     set_train_params(sess, 50, 2, 2, 0.1);
     init_session(sess, "./data/xor/data.txt", "./data/xor/label.txt");
-    train(sess);
+    train(sess, 0);
 }
 
 void xor_detect(char *type, char *path)
@@ -31,5 +31,5 @@ void xor_detect(char *type, char *path)
     Session *sess = create_session(g, 1, 2, 1, 2, type, path);
     set_detect_params(sess);
     init_session(sess, "./data/xor/data.txt", "./data/xor/label.txt");
-    detect_classification(sess);
+    detect_classification(sess, 0);
 }

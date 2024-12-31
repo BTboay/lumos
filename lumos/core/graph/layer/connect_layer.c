@@ -74,10 +74,10 @@ void weightinit_connect_layer(Layer l, FILE *fp)
     }
     float scale = sqrt((float)2 / l.inputs);
     for (int i = 0; i < l.inputs*l.outputs; ++i){
-        l.kernel_weights[i] = scale*rand_uniform(-1, 1);
+        l.kernel_weights[i] = scale*rand_uniform(-1, 1)*0.01;
     }
     if (l.bias){
-        fill_cpu(l.bias_weights, l.outputs, 0.001, 1);
+        fill_cpu(l.bias_weights, l.outputs, 0, 1);
         memcpy(l.update_bias_weights, l.bias_weights, l.outputs*sizeof(float));
     }
     memcpy(l.update_kernel_weights, l.kernel_weights, l.inputs*l.outputs*sizeof(float));

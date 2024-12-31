@@ -1,14 +1,10 @@
-#include "lenet5_cifar10.h"
 #include "lenet5_mnist.h"
-#include "dvc.h"
-#include "image.h"
-#include "lenet5_dvc.h"
 #include "alexnet.h"
 #include "xor.h"
+#include "binary_f.h"
 
 int main()
 {
-    lenet5_cifar10("gpu", NULL);
-    // lenet5_cifar10_detect("gpu", "./build/LW_f");
+    alexnet("gpu", NULL);
     return 0;
 }

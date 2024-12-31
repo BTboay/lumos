@@ -202,8 +202,8 @@ Session *create_session(Graph *graph, int h, int w, int c, int truth_num, char *
 void init_session(Session *sess, char *data_path, char *label_path);
 void set_train_params(Session *sess, int epoch, int batch, int subdivision, float learning_rate);
 void set_detect_params(Session *sess);
-void train(Session *sess);
-void detect_classification(Session *sess);
+void train(Session *sess, int binary);
+void detect_classification(Session *sess, int binary);
 void lr_scheduler_step(Session *sess, int step_size, float gamma);
 void lr_scheduler_multistep(Session *sess, int *milestones, int num, float gamma);
 void lr_scheduler_exponential(Session *sess, float gamma);

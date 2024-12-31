@@ -128,6 +128,25 @@ void load_train_data(Session *sess, int index)
     free(input);
 }
 
+void load_train_data_binary(Session *sess, int index)
+{
+    int offset_i = 0;
+    float *input = (float*)calloc(sess->subdivision*sess->width*sess->height*sess->channel, sizeof(float));
+    for (int i = index; i < index + sess->subdivision; ++i){
+        char *data_path = sess->train_data_paths[i];
+        FILE *fp = fopen(data_path, "r");
+        bfget(fp, input + offset_i, sess->height*sess->width*sess->channel);
+        fclose(fp);
+        offset_i += sess->height * sess->width * sess->channel;
+    }
+    if (sess->coretype == GPU){
+        cudaMemcpy(sess->input, input, sess->subdivision*sess->width*sess->height*sess->channel*sizeof(float), cudaMemcpyHostToDevice);
+    } else {
+        memcpy(sess->input, input, sess->subdivision*sess->width*sess->height*sess->channel*sizeof(float));
+    }
+    free(input);
+}
+
 void load_train_label(Session *sess, int index)
 {
     float *truth = calloc(sess->subdivision*sess->truth_num, sizeof(float));
@@ -153,7 +172,7 @@ void load_train_label(Session *sess, int index)
     free(truth);
 }
 
-void train(Session *sess)
+void train(Session *sess, int binary)
 {
     fprintf(stderr, "\nSession Start To Running\n");
     float rate = -sess->learning_rate / (float)sess->batch;
@@ -171,7 +190,8 @@ void train(Session *sess)
         for (int j = 0; j < sub_epochs; ++j){
             for (int k = 0; k < sub_batchs; ++k){
                 if (j * sess->batch + k * sess->subdivision + sess->subdivision > sess->train_data_num) break;
-                load_train_data(sess, j * sess->batch + k * sess->subdivision);
+                if (binary) load_train_data_binary(sess, j * sess->batch + k * sess->subdivision);
+                else load_train_data(sess, j * sess->batch + k * sess->subdivision);
                 load_train_label(sess, j * sess->batch + k * sess->subdivision);
                 forward_graph(sess->graph, sess->input, sess->coretype, sess->subdivision);
                 backward_graph(sess->graph, rate, sess->coretype, sess->subdivision);
@@ -207,7 +227,7 @@ void train(Session *sess)
     fprintf(stderr, "\n\nSession Training Finished\n");
 }
 
-void detect_classification(Session *sess)
+void detect_classification(Session *sess, int binary)
 {
     fprintf(stderr, "\nSession Start To Running\n");
     int num = 0;
@@ -224,7 +244,8 @@ void detect_classification(Session *sess)
         loss = calloc(1, sizeof(float));
     }
     for (int i = 0; i < sess->train_data_num; ++i){
-        load_train_data(sess, i);
+        if (binary) load_train_data_binary(sess, i);
+        else load_train_data(sess, i);
         load_train_label(sess, i);
         forward_graph(sess->graph, sess->input, sess->coretype, sess->subdivision);
         if (sess->coretype == GPU){

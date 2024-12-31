@@ -11,6 +11,7 @@
 #include "image.h"
 #include "progress_bar.h"
 #include "optimize.h"
+#include "binary_f.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,10 +58,11 @@ void bind_train_label(Session *sess, char *path);
 void set_train_params(Session *sess, int epoch, int batch, int subdivision, float learning_rate);
 void set_detect_params(Session *sess);
 void create_workspace(Session *sess);
-void train(Session *sess);
-void detect_classification(Session *sess);
+void train(Session *sess, int binary);
+void detect_classification(Session *sess, int binary);
 
 void load_train_data(Session *sess, int index);
+void load_train_data_binary(Session *sess, int index);
 void load_train_label(Session *sess, int index);
 
 void lr_scheduler_step(Session *sess, int step_size, float gamma);
