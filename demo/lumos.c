@@ -1,4 +1,4 @@
-#include "lenet5_mnist.h"
+#include "lenet5.h"
 #include "alexnet.h"
 #include "xor.h"
 #include "binary_f.h"

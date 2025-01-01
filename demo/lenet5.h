@@ -1,5 +1,5 @@
-#ifndef LENET5_MNIST_H
-#define LENET5_MNIST_H
+#ifndef LENET5_H
+#define LENET5_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +11,8 @@
 extern "C" {
 #endif
 
-void lenet5_mnist(char *type, char *path);
-void lenet5_mnist_detect(char*type, char *path);
+void lenet5(char *type, char *path);
+void lenet5_detect(char*type, char *path);
 
 #ifdef __cplusplus
 }

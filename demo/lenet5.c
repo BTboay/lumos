@@ -1,6 +1,6 @@
-#include "lenet5_mnist.h"
+#include "lenet5.h"
 
-void lenet5_mnist(char *type, char *path)
+void lenet5(char *type, char *path)
 {
     Graph *g = create_graph();
     Layer *l1 = make_convolutional_layer(6, 5, 1, 0, 1, 0, "relu");
@@ -29,7 +29,7 @@ void lenet5_mnist(char *type, char *path)
     train(sess, 0);
 }
 
-void lenet5_mnist_detect(char*type, char *path)
+void lenet5_detect(char*type, char *path)
 {
     Graph *g = create_graph();
     Layer *l1 = make_convolutional_layer(6, 5, 1, 0, 1, 0, "relu");
