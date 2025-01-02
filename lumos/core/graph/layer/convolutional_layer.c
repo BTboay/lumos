@@ -90,7 +90,7 @@ void weightinit_convolutional_layer(Layer l, FILE *fp)
         }
     }
     if (l.bias){
-        fill_cpu(l.bias_weights, l.filters, 0, 1);
+        fill_cpu(l.bias_weights, l.filters, 0.001, 1);
         memcpy(l.update_bias_weights, l.bias_weights, l.filters*sizeof(float));
     }
     memcpy(l.update_kernel_weights, l.kernel_weights, l.filters*l.ksize*l.ksize*l.input_c*sizeof(float));

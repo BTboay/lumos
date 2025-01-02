@@ -36,9 +36,9 @@ Layer *make_connect_layer(int output, int bias, char *active)
 
 void init_connect_layer(Layer *l, int w, int h, int c, int subdivision)
 {
-    l->input_h = h;
-    l->input_w = w;
-    l->input_c = c;
+    l->input_h = 1;
+    l->input_w = 1;
+    l->input_c = h*w*c;
     l->inputs = l->input_h * l->input_w * l->input_c;
 
     l->output_h = 1;
@@ -74,10 +74,10 @@ void weightinit_connect_layer(Layer l, FILE *fp)
     }
     float scale = sqrt((float)2 / l.inputs);
     for (int i = 0; i < l.inputs*l.outputs; ++i){
-        l.kernel_weights[i] = scale*rand_uniform(-1, 1)*0.01;
+        l.kernel_weights[i] = scale*rand_uniform(-1, 1);
     }
     if (l.bias){
-        fill_cpu(l.bias_weights, l.outputs, 0, 1);
+        fill_cpu(l.bias_weights, l.outputs, 0.001, 1);
         memcpy(l.update_bias_weights, l.bias_weights, l.outputs*sizeof(float));
     }
     memcpy(l.update_kernel_weights, l.kernel_weights, l.inputs*l.outputs*sizeof(float));

@@ -59,7 +59,7 @@ void weightinit_convolutional_layer_gpu(Layer l, FILE *fp)
     }
     if (l.bias){
         float *bias_weights = (float*)calloc(l.filters, sizeof(float));
-        fill_cpu(bias_weights, l.filters, 0, 1);
+        fill_cpu(bias_weights, l.filters, 0.001, 1);
         cudaMemcpy(l.bias_weights, bias_weights, l.filters*sizeof(float), cudaMemcpyHostToDevice);
         cudaMemcpy(l.update_bias_weights, bias_weights, l.filters*sizeof(float), cudaMemcpyHostToDevice);
         free(bias_weights);

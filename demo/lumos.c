@@ -5,6 +5,7 @@
 
 int main()
 {
-    alexnet("gpu", NULL);
+    lenet5("cpu", NULL);
+    lenet5_detect("cpu", "./build/LW_f");
     return 0;
 }
